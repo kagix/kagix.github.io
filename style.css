@@ -1,0 +1,123 @@
+:root {
+	--menubar-height: 50px;
+	--menubar-background-color: black;
+	--contact-background-color: black;
+	--menuitem-margin-horizontal : 20px;
+	--menuitem-margin-vertical : 20px;
+	--menuitem-font-size : 20px;
+	--footer-font-size : 20px;
+	--menuitem-text-color: white;
+
+}
+
+
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+header {
+
+}
+
+
+main {
+
+}
+
+footer {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	color: white;
+}
+
+footer p {
+	font-size: var(--footer-font-size);
+}
+
+
+
+#menubar {
+	width: 100%;
+	height: height: var(--menubar-height);
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-areas: 
+	"first-page second-page third-page";
+}
+
+#menubar a {
+	text-decoration: none;
+	margin-left: var(--menuitem-margin-horizontal);
+	margin-top: var(--menuitem-margin-vertical);
+	font-size: var(--menuitem-font-size);
+	color: var(--menuitem-text-color);
+
+}
+
+#first-page {
+	grid-area: first-page;
+}
+
+#second-page {
+	grid-area: second-page;
+}
+
+#third-page {
+	grid-area: third-page;
+}
+
+
+
+#navbar {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: var(--menubar-height);
+	background-color: var(--menubar-background-color);
+}
+
+#contact-line {
+	height: var(--menubar-height);
+	background-color: var(--menubar-background-color);
+}
+
+
+.one-page {
+	width: 100vw;
+	height: 100vh;
+}
+
+.teal-background {
+	background-color: teal;
+}
+
+.gray-background {
+	background-color: darkgreen;
+}
+
+.darkblue-background {
+	background-color: darkblue;
+}
+
+
+
+
+@media (max-width: 700px) {
+	:root {
+		--menubar-height: 30px;
+		--menuitem-margin-horizontal : 10px;
+		--menuitem-margin-vertical : 10px;
+		--menuitem-font-size : 12px;
+		--footer-font-size : 12px;
+
+	}
+
+	
+
+}
