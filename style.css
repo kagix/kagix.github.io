@@ -1,10 +1,10 @@
 :root {
-	--menubar-height: 50px;
+	--menubar-height: 80px;
 	--menubar-background-color: black;
 	--contact-background-color: black;
 	--menuitem-margin-horizontal : 20px;
 	--menuitem-margin-vertical : 20px;
-	--menuitem-font-size : 20px;
+	--menuitem-font-size : 35px;
 	--footer-font-size : 20px;
 	--menuitem-text-color: white;
 	--footer-background-color: black;
@@ -13,6 +13,7 @@
 	--tile-width: 400px;
 	--tile-height: 400px;
 	--project-title: 30px;
+	--footer-height: 40px;
 
 }
 
@@ -45,6 +46,8 @@ footer {
 	text-align: center;
 	color: white;
 	background-color: var(--footer-background-color);
+	height: var(--footer-height);
+
 }
 
 footer p {
@@ -57,7 +60,7 @@ footer p {
 	width: 100%;
 	height: height: var(--menubar-height);
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: 2fr 3fr 2fr;
 	grid-template-areas: 
 	"first-page second-page third-page";
 }
@@ -273,12 +276,12 @@ footer p {
 
 
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 	:root {
-		--menubar-height: 30px;
+		--menubar-height: 50px;
 		--menuitem-margin-horizontal : 10px;
 		--menuitem-margin-vertical : 10px;
-		--menuitem-font-size : 12px;
+		--menuitem-font-size : 25px;
 		--footer-font-size : 12px;
 
 		--tile-title: 30px;
@@ -302,13 +305,14 @@ footer p {
 		--menuitem-margin-horizontal : 10px;
 		--menuitem-margin-vertical : 10px;
 		--menuitem-font-size : 12px;
-		--footer-font-size : 12px;
+		--footer-font-size : 14px;
 
 		--tile-title: 20px;
 		--tile-text: 15px;
 		--tile-width: 200px;
 		--tile-height: 200px;
 		--project-title: 15px;
+		--footer-height: 30px;
 
 	}
 

@@ -1,16 +1,21 @@
 :root {
-	--menubar-height: 50px;
+	--menubar-height: 80px;
 	--menubar-background-color: black;
 	--contact-background-color: black;
 	--menuitem-margin-horizontal : 20px;
 	--menuitem-margin-vertical : 20px;
-	--menuitem-font-size : 20px;
+	--menuitem-font-size : 35px;
 	--footer-font-size : 20px;
 	--menuitem-text-color: white;
-
-	--title-font-size: 10vh;
-	--text-font-size: 5vh;
-
+	--footer-background-color: black;
+	--tile-title: 50px;
+	--tile-text: 30px;
+	--tile-width: 400px;
+	--tile-height: 400px;
+	--project-title: 30px;
+	--title-font-size: 50px;
+	--text-font-size: 30px;
+	--footer-height: 40px;
 }
 
 
@@ -37,6 +42,7 @@ footer {
 	width: 100%;
 	text-align: center;
 	color: white;
+	height: var(--footer-height);
 }
 
 footer p {
@@ -50,7 +56,7 @@ footer p {
 	text-align: center;
 	height: height: var(--menubar-height);
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: 2fr 3fr 2fr;
 	grid-template-areas: 
 	"first-page second-page third-page";
 }
@@ -153,14 +159,26 @@ footer p {
 
 @media (max-width: 1000px) {
 	:root {
-		--menubar-height: 30px;
-		--menuitem-margin-horizontal : 10px;
-		--menuitem-margin-vertical : 10px;
-		--menuitem-font-size : 12px;
-		--footer-font-size : 12px;
 
 		--title-font-size: 25px;
 		--text-font-size: 20px;
+	}
+
+	
+
+}
+
+
+@media (max-width: 800px) {
+	:root {
+		--menubar-height: 50px;
+		--menuitem-margin-horizontal : 10px;
+		--menuitem-margin-vertical : 10px;
+		--menuitem-font-size : 25px;
+		--footer-font-size : 12px;
+		--footer-height: 40px;
+
+
 	}
 
 	
@@ -172,11 +190,11 @@ footer p {
 		--menubar-height: 30px;
 		--menuitem-margin-horizontal : 10px;
 		--menuitem-margin-vertical : 10px;
-		--menuitem-font-size : 12px;
+		--menuitem-font-size : 16px;
 		--footer-font-size : 12px;
+		--footer-height: 30px;
 
-		--title-font-size: 20px;
-		--text-font-size: 15px;
+
 	}
 
 	
