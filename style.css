@@ -7,6 +7,12 @@
 	--menuitem-font-size : 20px;
 	--footer-font-size : 20px;
 	--menuitem-text-color: white;
+	--footer-background-color: black;
+	--tile-title: 50px;
+	--tile-text: 30px;
+	--tile-width: 400px;
+	--tile-height: 400px;
+	--project-title: 30px;
 
 }
 
@@ -23,7 +29,12 @@ header {
 
 
 main {
-
+	display: grid;
+  	grid-template-columns: 100vw;
+	grid-template-areas: 
+		"welcome"
+    	"projects"
+    	"contact";
 }
 
 footer {
@@ -33,6 +44,7 @@ footer {
 	width: 100%;
 	text-align: center;
 	color: white;
+	background-color: var(--footer-background-color);
 }
 
 footer p {
@@ -56,6 +68,7 @@ footer p {
 	margin-top: var(--menuitem-margin-vertical);
 	font-size: var(--menuitem-font-size);
 	color: var(--menuitem-text-color);
+	text-align: center;
 
 }
 
@@ -82,7 +95,7 @@ footer p {
 	background-color: var(--menubar-background-color);
 }
 
-#contact-line {
+#footer-line {
 	height: var(--menubar-height);
 	background-color: var(--menubar-background-color);
 }
@@ -94,15 +107,167 @@ footer p {
 }
 
 .teal-background {
-	background-color: teal;
+	background: linear-gradient(90deg,teal, lightgray);
 }
 
 .gray-background {
-	background-color: darkgreen;
+	background: linear-gradient(90deg,black, lightgray);
+}
+
+.yellow-background {
+	background: linear-gradient(90deg,darkgreen, lightyellow);
+}
+
+.black-background {
+	background-color: black;
 }
 
 .darkblue-background {
 	background-color: darkblue;
+}
+
+.white-background {
+	background-color: linear-gradient(90deg,black, lightgray);
+}
+
+
+#inspiration-page {
+	grid-area : welcome;
+
+	display: grid;
+	grid-template-columns:  1fr 5fr 1fr;
+	grid-template-columns: 1fr 5fr 1fr;
+	grid-template-areas: 
+	". . ."
+	". welcome-area ."
+	". . .";
+}
+
+#welcome-area {
+	grid-area : welcome-area;
+}
+
+#welcome-quote {
+	text-align: center;
+	font-family: "Georgia";
+	font-size: 10vh;
+}
+
+#welcome-teaser {
+	text-align: center;
+	font-size: 5vh;
+}
+
+#invite {
+	text-align: center;
+	font-size: 5vh;
+}
+
+#projects {
+  height: 100vh;
+  grid-area : projects;
+  /*background: linear-gradient(30deg,yellow, blue);*/
+}
+
+#project-view {
+  margin: 100px;
+  //background-color: red;
+
+}
+
+#projects-title {
+  //background-color: blue;
+  width: 100%;
+}
+
+#projects-title h3 {
+  text-align: center;
+  font-family: 'Gugi', sans-serif;
+  font-size: var(--project-title);
+  
+}
+
+
+#projects-list {
+  //background-color: green;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-around;
+  flex-wrap: wrap;
+  
+  
+}
+
+.project-item {
+	width: var(--tile-width);
+  	height: var(--tile-height);
+}
+
+.project-tile {
+  
+  border-radius: 40px;
+  background-color: black;
+  color: white;
+  width: 90%;
+  height: 90%;
+  
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 10% 80% 10%;
+  grid-template-areas:
+    ". . ."
+    ". content ."
+    ". . .";
+}
+
+
+.enlarge:hover {
+
+  transform: scale(1.1);
+
+}
+
+
+.project-tile:hover {
+
+  transform: scale(1.1);
+  color:white;
+  
+}
+
+.project-item-content {
+  /*border-radius: 20px;
+  border: 5px solid red;*/
+  //background-color: black;
+  color: white;
+  grid-area: content;
+  text-decoration: none;
+  
+}
+
+
+
+.project-item-content h3 {
+	text-align: center;
+	font-size: var(--tile-title);
+
+}
+
+.project-item-content p{
+	text-align: center;
+	font-size: var(--tile-text);
+}
+
+.image-tile {
+  width: 100%;
+  height: 100%;
+}
+
+
+#other-page {
+	grid-area: contact;
 }
 
 
@@ -115,6 +280,35 @@ footer p {
 		--menuitem-margin-vertical : 10px;
 		--menuitem-font-size : 12px;
 		--footer-font-size : 12px;
+
+		--tile-title: 30px;
+		--tile-text: 20px;
+		--tile-width: 300px;
+		--tile-height: 300px;
+		--project-title: 20px;
+
+	}
+
+	
+
+}
+
+
+
+
+@media (max-width: 500px) {
+	:root {
+		--menubar-height: 30px;
+		--menuitem-margin-horizontal : 10px;
+		--menuitem-margin-vertical : 10px;
+		--menuitem-font-size : 12px;
+		--footer-font-size : 12px;
+
+		--tile-title: 20px;
+		--tile-text: 15px;
+		--tile-width: 200px;
+		--tile-height: 200px;
+		--project-title: 15px;
 
 	}
 

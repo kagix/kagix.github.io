@@ -1,0 +1,184 @@
+:root {
+	--menubar-height: 50px;
+	--menubar-background-color: black;
+	--contact-background-color: black;
+	--menuitem-margin-horizontal : 20px;
+	--menuitem-margin-vertical : 20px;
+	--menuitem-font-size : 20px;
+	--footer-font-size : 20px;
+	--menuitem-text-color: white;
+
+	--title-font-size: 10vh;
+	--text-font-size: 5vh;
+
+}
+
+
+
+body {
+	margin: 0px;
+	padding: 0px;
+	background-color: teal;
+}
+
+header {
+
+}
+
+
+main {
+
+}
+
+footer {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	color: white;
+}
+
+footer p {
+	font-size: var(--footer-font-size);
+}
+
+
+
+#menubar {
+	width: 100%;
+	text-align: center;
+	height: height: var(--menubar-height);
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-areas: 
+	"first-page second-page third-page";
+}
+
+#menubar a {
+	text-decoration: none;
+	margin-left: var(--menuitem-margin-horizontal);
+	margin-top: var(--menuitem-margin-vertical);
+	font-size: var(--menuitem-font-size);
+	color: var(--menuitem-text-color);
+
+}
+
+.enlarge:hover {
+
+  transform: scale(1.1);
+  
+}
+#first-page {
+	grid-area: first-page;
+}
+
+#second-page {
+	grid-area: second-page;
+}
+
+#third-page {
+	grid-area: third-page;
+}
+
+.enlarge:hover {
+
+  transform: scale(1.1);
+
+}
+
+#navbar {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: var(--menubar-height);
+	background-color: var(--menubar-background-color);
+}
+
+#contact-line {
+	height: var(--menubar-height);
+	background-color: var(--menubar-background-color);
+}
+
+
+.one-page {
+	width: 100vw;
+	//height: 100%;
+}
+
+.teal-background {
+	background-color: teal;
+}
+
+.gray-background {
+	background-color: darkgreen;
+}
+
+.darkblue-background {
+	background-color: darkblue;
+}
+
+
+#project-offset{
+	height: var(--menubar-height);
+	width: 100%;
+}
+
+#project-page {
+	display: grid;
+	grid-template-columns:  1fr 5fr 1fr;
+	grid-template-columns: 1fr 5fr 1fr;
+	grid-template-areas: 
+	". . ."
+	". project-area ."
+	". . .";
+}
+
+#project-area {
+	grid-area : project-area;
+}
+
+#project-name {
+	text-align: center;
+	font-family: "Georgia";
+	font-size: var(--title-font-size);
+}
+
+#project-description {
+	text-align: justify;
+	font-size: var(--text-font-size);
+}
+
+
+@media (max-width: 1000px) {
+	:root {
+		--menubar-height: 30px;
+		--menuitem-margin-horizontal : 10px;
+		--menuitem-margin-vertical : 10px;
+		--menuitem-font-size : 12px;
+		--footer-font-size : 12px;
+
+		--title-font-size: 25px;
+		--text-font-size: 20px;
+	}
+
+	
+
+}
+
+@media (max-width: 700px) {
+	:root {
+		--menubar-height: 30px;
+		--menuitem-margin-horizontal : 10px;
+		--menuitem-margin-vertical : 10px;
+		--menuitem-font-size : 12px;
+		--footer-font-size : 12px;
+
+		--title-font-size: 20px;
+		--text-font-size: 15px;
+	}
+
+	
+
+}
