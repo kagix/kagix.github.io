@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pomodoro clock</title>
+
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../useful-style.css">
+	<link rel="stylesheet" type="text/css" href="pomodoro.css">
+
+
+	
+
+
+</head>
+<body>
+	<nav id="navbar">
+		<div id="menubar">
+			<a id="first-page" href="../../../index.html" class="enlarge">Home</a>
+			<a id="second-page" href="../../../projects.html" class="enlarge">Past projects</a>
+			<a id="third-page" href="../../../contact.html" class="enlarge">Contact</a>
+		</div>
+		
+	</nav>
+
+
+<main>
+				<!--<div id="project-offset"></div> -->
+
+		<div id="project-page" class="one-page teal-background">
+			<div id="project-area">
+				<h1 id="project-name">Pomodoro Clock</h1>
+				<p id="project-description">This is a simple tool that will help you track time. The only limit is your imagination.
+				</p>
+				<div id="root" ></div>
+					
+
+			</div>
+		</div>
+		
+	</main>
+
+
+
+
+	<footer id="contact-line">
+		<p>(C) kagix 2014 - 2019<p>
+	</footer>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.10.2/umd/react.production.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.10.2/umd/react-dom.production.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.0.4/redux.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/react-redux/7.1.1/react-redux.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js" ></script>
+
+	<script type="text/babel" >
+
+const ICON_MINUS = <i className="material-icons md-24">remove_circle</i>;
+const ICON_PLUS = <i className="material-icons md-24">add_circle</i>;
+const ICON_PAUSE = <i class="material-icons md-24">pause_circle_filled</i>;
+const ICON_PLAY = <i class="material-icons md-24">play_circle_filled</i>;
+const ICON_RESET = <i class="material-icons md-24">replay</i>;
+
+
+const ICONS = {
+  "-" : ICON_MINUS,
+  "+" : ICON_PLUS,
+  "||" : ICON_PAUSE,
+  ">" : ICON_PLAY,
+  "R" : ICON_RESET
+};
+
+const ONE_SECOND = 1000;
+const PHASE_SESSION = 'PHASE_SESSION';
+const PHASE_BREAK = 'PHASE_BREAK';
+
+  
+  
+
+class TimeControl extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.handleEast = this.handleEast.bind(this);
+    this.handleWest = this.handleWest.bind(this);
+
+  }
+  
+  handleEast(event) {
+    this.props.handleEast();
+    
+  }
+  
+  handleWest(event) {
+        this.props.handleWest();
+
+  }
+  
+  render() {
+    let west = ICONS.hasOwnProperty(this.props.labelWest) ? ICONS[this.props.labelWest]  : this.props.labelWest;
+    let east = ICONS.hasOwnProperty(this.props.labelEast) ? ICONS[this.props.labelEast]  : this.props.labelEast;
+
+    return (
+      <div className="tennis-field">
+        <button className="tennis-dec" id={this.props.labelWestID} onClick={this.handleWest}>{west}</button>
+        <div className="tennis-label" id={this.props.labelNorthID}>{this.props.labelNorth}</div>
+        <button className="tennis-inc" id={this.props.labelEastID} onClick={this.handleEast}>{east}</button>
+         <div className="tennis-time segment-7" id={this.props.labelSouthID}>{this.props.labelSouth}</div>
+      </div>
+    );
+  }
+  
+}
+
+
+const startAlarm = () => { 
+
+  stopAlarm();
+  let audio = document.getElementById("beep");
+    audio.currentTime = 0;
+    audio.play();
+    audio.currentTime = 0;
+  
+}
+
+const stopAlarm = ()  =>{
+  let audio = document.getElementById("beep");
+  if (audio.duration > 0 && !audio.paused) {
+
+    audio.pause();
+    audio.currentTime = 0;
+  }
+    
+  
+}
+
+
+
+class PomodoroClock extends React.Component {
+  constructor(props) {
+    super(props);
+ 
+    
+    this.shorterBreak = this.shorterBreak.bind(this);
+    this.longerBreak = this.longerBreak.bind(this);
+    this.shorterSession = this.shorterSession.bind(this);
+    this.longerSession = this.longerSession.bind(this);
+    this.playPause = this.playPause.bind(this);
+    this.resetValues = this.resetValues.bind(this);
+    this.pomodoroTimer = this.pomodoroTimer.bind(this);
+    
+    this.state = {intervalId: 0} ;
+  }
+ 
+    
+  pomodoroTimer() {
+    this.props.clockTick();
+  }
+  
+  shorterBreak() {
+    this.props.decreaseBreak();
+  }
+  
+  longerBreak() {
+    this.props.increaseBreak();
+  }
+  
+  shorterSession() {
+    this.props.decreaseSession();
+  }
+  
+  longerSession() {
+    this.props.increaseSession();
+  }
+  
+  playPause() {
+    
+    let value = this.props.attributes.status;
+    if ( value == RUNNING){
+          clearInterval(this.state.intervalId);
+          this.setState({intervalId: 0} );
+          this.props.pauseClock();
+    } else {
+          let intervalId  = setInterval(this.pomodoroTimer, ONE_SECOND);
+          this.setState({intervalId: intervalId});
+          this.props.playClock();
+    }
+  }
+  
+  resetValues() {
+          stopAlarm();
+          if (this.state.intervalId != 0) {
+            clearInterval(this.state.intervalId);
+            this.setState({intervalId: 0} );
+          }
+          
+          this.props.resetValues();
+          
+  }
+  
+  
+
+ 
+  
+  
+  render() {
+    let attrs = this.props.attributes;
+    let breakLen = attrs.breakLength;
+    let sessionLen = attrs.sessionLength;
+    let currentState = attrs.status;
+    let buttonIcon = currentState == RUNNING ? '||' : '>';
+    let mainLabel = "";
+    let mainValue = "";
+    if (attrs.phase == PHASE_SESSION)  {
+      mainLabel = "Session";
+      let timeLeft = attrs.sessionTimeLeft;
+      if ( timeLeft.minutes < 10)
+        mainValue += "0";
+      mainValue += timeLeft.minutes;
+            mainValue +=":";
+
+      if ( timeLeft.seconds < 10)
+        mainValue += "0";
+      mainValue += timeLeft.seconds;
+    } else {
+      mainLabel = "Break";
+      let timeLeft = attrs.breakTimeLeft;
+      if ( timeLeft.minutes < 10)
+        mainValue += "0";
+      mainValue += timeLeft.minutes;
+      mainValue +=":";
+      if ( timeLeft.seconds < 10)
+        mainValue += "0";
+      mainValue += timeLeft.seconds;
+    }
+    
+    let songName = "https://www.soundjay.com/mechanical/hammering-2.mp3";
+    
+    return (
+      <div>
+        <audio  preload="auto"id="beep" 
+          src={songName} type="audio/mpeg" className="clip"
+          >
+        </audio>
+        <TimeControl controlID="break" labelNorthID="break-label" labelWestID="break-decrement" labelEastID="break-increment" 
+          labelSouthID="break-length" labelNorth="Break length" labelWest="-" labelEast="+" labelSouth={breakLen} 
+          handleWest={this.shorterBreak} handleEast={this.longerBreak}/>
+        <TimeControl controlID="time" labelNorthID="timer-label" labelWestID="start_stop" labelEastID="reset" labelSouthID="time-left" 
+          labelNorth={mainLabel} labelWest={buttonIcon} labelEast="R" labelSouth={mainValue} 
+          handleWest={this.playPause} handleEast={this.resetValues}/>
+        <TimeControl  controlID="session" labelNorthID="session-label" labelWestID="session-decrement" labelEastID="session-increment" 
+          labelSouthID="session-length" labelNorth="Session length" labelWest="-" labelEast="+" labelSouth={sessionLen}
+          handleWest={this.shorterSession} handleEast={this.longerSession}/>
+      </div>
+    );
+    
+  }
+  
+}
+
+
+
+const DECREASE_BREAK = 'DECREASE_BREAK';
+const INCREASE_BREAK = 'INCREASE_BREAK';
+const DECREASE_SESSION = 'DECREASE_SESSION';
+const INCREASE_SESSION = 'INCREASE_SESSION';
+const RESET_VALUES = 'RESET_VALUES';
+const PLAY_CLOCK = 'PLAY_CLOCK';
+const PAUSE_CLOCK = 'PAUSE_CLOCK';
+const CLOCK_TICK = 'CLOCK_TICK';
+
+
+function decreaseBreak(){
+  return {
+    type: DECREASE_BREAK
+  };
+}
+
+function increaseBreak(){
+  return {
+    type: INCREASE_BREAK
+  };
+}
+
+function decreaseSession(){
+  return {
+    type: DECREASE_SESSION
+  };
+}
+
+function increaseSession(){
+  return {
+    type: INCREASE_SESSION
+  };
+}
+
+function resetValues(){
+  return {
+    type: RESET_VALUES
+  };
+}
+
+function playClock(){
+  return {
+    type: PLAY_CLOCK
+  };
+}
+
+function pauseClock(){
+  return {
+    type: PAUSE_CLOCK
+  };
+}
+
+function clockTick(){
+  return {
+    type: CLOCK_TICK
+  };
+}
+
+const mapStateToProps = ( attributes ) => {
+  return { attributes } ;
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    decreaseBreak:  () => dispatch(decreaseBreak()),
+    increaseBreak:  () => dispatch(increaseBreak()),
+    decreaseSession:  () => dispatch(decreaseSession()),
+    increaseSession:  () => dispatch(increaseSession()),
+    resetValues:  () => dispatch(resetValues()),
+    playClock:  () => dispatch(playClock()),
+    pauseClock:  () => dispatch(pauseClock()),
+    clockTick: () => dispatch(clockTick())
+  };
+}
+
+const ACTIVITY_BREAK = "BREAK";
+const ACTIVITY_SESSION = "SESSION";
+const SECONDS_IN_MINUTE = 60;
+const STOPPED = "STOPPED";
+const RUNNING = "RUNNING"
+
+const DEFAULT_BREAK_LENGTH = 5;
+const MIN_BREAK_LENGTH = 1;
+const MAX_BREAK_LENGTH = 60;
+
+const DEFAULT_SESSION_LENGTH = 25;
+const MIN_SESSION_LENGTH = 1;
+const MAX_SESSION_LENGTH = 60;
+
+const makeProps = () => {
+  let props = {
+    breakLength: DEFAULT_BREAK_LENGTH,
+    sessionLength: DEFAULT_SESSION_LENGTH,
+    currentActivityType:   ACTIVITY_SESSION,
+    breakTimeLeft: {
+      minutes: DEFAULT_BREAK_LENGTH,
+      seconds: 0
+    },
+    sessionTimeLeft: {
+      minutes: DEFAULT_SESSION_LENGTH,
+      seconds: 0
+    },
+    status: STOPPED,
+    phase: PHASE_SESSION
+  };
+  return props;
+}  
+
+
+const copyProps = (props) => {
+  
+  let newProps = {
+    breakLength: props.breakLength,
+    sessionLength: props.sessionLength,
+    currentActivityType:   props.currentActivityType,
+    breakTimeLeft: {
+      minutes: props.breakTimeLeft.minutes,
+      seconds: props.breakTimeLeft.seconds
+    },
+    sessionTimeLeft: {
+      minutes: props.sessionTimeLeft.minutes,
+      seconds: props.sessionTimeLeft.seconds
+    },
+    status: props.status,
+    phase: props.phase
+  };
+  return newProps; 
+}
+
+
+
+const decreaseBreakByOne = (props )  => {
+  if ( props.status == RUNNING) {
+      return props;
+    } 
+  let newProps = copyProps(props);  
+  let currentValue = newProps.breakLength;
+  if ( currentValue > MIN_BREAK_LENGTH){
+    newProps.breakLength = currentValue -1;
+  }
+  
+  newProps.breakTimeLeft.minutes = newProps.breakLength;
+  newProps.breakTimeLeft.seconds = 0;
+  return newProps;
+}
+
+const increaseBreakByOne = (props )  => {
+  if ( props.status == RUNNING) {
+        return props;
+      } 
+  let newProps = copyProps(props);  
+  let currentValue = newProps.breakLength;
+  if ( currentValue < MAX_BREAK_LENGTH){
+    newProps.breakLength = currentValue +1;
+  }
+  newProps.breakTimeLeft.minutes = newProps.breakLength;
+  newProps.breakTimeLeft.seconds = 0;
+  return newProps;
+}
+
+
+const decreaseSessionByOne = (props )  => {
+  if ( props.status == RUNNING) {
+      return props;
+    } 
+  
+  let newProps = copyProps(props);  
+  let currentValue = newProps.sessionLength;
+  if ( currentValue > MIN_SESSION_LENGTH){
+    newProps.sessionLength = currentValue -1;
+  }
+  newProps.sessionTimeLeft.minutes = newProps.sessionLength;
+  newProps.sessionTimeLeft.seconds = 0;
+  return newProps;
+}
+
+const increaseSessionByOne = (props )  => {
+
+  if ( props.status == RUNNING) { 
+    return props;
+  } 
+  
+  let newProps = copyProps(props);  
+  let currentValue = newProps.sessionLength;
+  if ( currentValue < MAX_SESSION_LENGTH){
+    newProps.sessionLength = currentValue +1;
+  }
+  newProps.sessionTimeLeft.minutes = newProps.sessionLength;
+  newProps.sessionTimeLeft.seconds = 0;
+  return newProps;
+}
+
+
+const playOrPause = (props )  => {
+
+  let newProps = copyProps(props);  
+  let currentValue = newProps.status; 
+  if ( currentValue == STOPPED){
+    newProps.status = RUNNING;
+  } else {
+    newProps.status = STOPPED;
+  }
+  
+  return newProps;
+}
+
+
+const resetProps = (props )  => {
+  let newProps = makeProps();  
+
+  
+  
+  return newProps;
+}
+
+const elapseTime = (props )  => {
+  let nextTime = {};
+  let newProps = copyProps(props);  
+  if ( newProps.phase == PHASE_SESSION) {
+    nextTime = newProps.sessionTimeLeft;
+  } else {
+     nextTime = newProps.breakTimeLeft;
+  }
+  
+  if ( nextTime.minutes == 0 && nextTime.seconds == 0) {
+      startAlarm();
+    // should beep the alarm
+    if ( newProps.phase == PHASE_SESSION) {
+      nextTime.seconds = 0;
+      nextTime.minutes = newProps.sessionLength;
+      nextTime = newProps.breakTimeLeft;
+      nextTime.seconds = 0;
+      nextTime.minutes = newProps.breakLength;
+      //newProps.sessionTimeLeft = nextTime;
+      newProps.phase = PHASE_BREAK;
+    } else {
+      nextTime.seconds = 0;
+      nextTime.minutes = newProps.breakLength;
+      nextTime = newProps.sessionTimeLeft;
+      nextTime.seconds = 0;
+      nextTime.minutes = newProps.sessionLength;
+       //newProps.breakTimeLeft = nextTime;
+      newProps.phase = PHASE_SESSION;
+    }
+  } else {
+      if ( nextTime.seconds > 0) {
+        nextTime.seconds -= 1;
+
+      } else {
+        if ( nextTime.minutes > 0) {
+          nextTime.minutes -= 1;
+          nextTime.seconds = 59;
+        }
+        
+      }
+  }
+  
+  
+  return newProps;
+}
+
+
+
+const initialProps = makeProps();
+
+
+
+
+
+const propsReducer = (state = initialProps, action) => {
+
+  switch(action.type){
+    case DECREASE_BREAK:
+      return decreaseBreakByOne(state);
+    case INCREASE_BREAK:
+      return increaseBreakByOne(state);
+    case DECREASE_SESSION:
+      return decreaseSessionByOne(state);
+    case INCREASE_SESSION:
+      return increaseSessionByOne(state);
+    case RESET_VALUES:
+      return resetProps(state);
+    case PLAY_CLOCK:
+      return playOrPause(state);
+    case PAUSE_CLOCK:
+      return playOrPause(state);
+    case CLOCK_TICK:
+      return elapseTime(state);
+    default:
+      return state;
+  }
+};
+
+
+
+
+const store = Redux.createStore(propsReducer);
+const Provider = ReactRedux.Provider;
+const PomodoroClockConnected = ReactRedux.connect(mapStateToProps, mapDispatchToProps)(PomodoroClock);
+
+
+
+
+const ROOT_ID = "root";
+const root = () => {
+  return document.getElementById(ROOT_ID);
+}
+
+
+
+let element = <Provider store={store}><PomodoroClockConnected /></Provider>;
+ReactDOM.render(element, root());
+
+
+
+
+	</script>
+</body>
+</html>
