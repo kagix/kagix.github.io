@@ -41,6 +41,42 @@
 											<br>
 											<br>
 											XSTS is written in Java and you can download the code for free from  the <a href="https://gitlab.com/xsts">official repository</a>.
+											<br>
+											<br>
+											The framework works only with datasets containing a single agency. The following modules are part of XSTS and you can download them individually from the repository above.
+											<br/>
+											<br>
+											<strong>The top level projects</strong>
+											<br/>
+											<br/>
+											<img src="res/core-project-logo.png"> - The Core module used by all the other ones.
+											<br/>
+											<img src="res/pdf-project-logo.png"> - The PDF module is responsible of creating tho compact schematics and booklets files you might have seen on my blog. It is GTFS agnostic and you can use it to create your own PDF files.
+											<br/>
+											<img src="res/tutorial-project-logo.png"> - The Tutorial module is probably the most important for you. It shows how to use the XSTS modules in order to profit from the framework.
+											<br/>
+											<br/>
+											<strong>The GTFS-related projects</strong>
+											<br/>
+											<br/>
+											<img src="res/gds-project-logo.png"> - The GTFS Data Structure module implements a simple object model (POJO) for the respective files from the GTFS datasets. It supports the required subset of files and a some of the optional ones.
+											<br/>
+											<img src="res/gdl-project-logo.png"> - The GTFS Data Load module is responsoble from reading the content of the datasets from either plain text, or zip files. It is very easy to adapt to a SQL/NoSQL database and most likely I will add such capabilities in the future. 
+											<br/>
+											<img src="res/gtfs-splitter-project-logo.png"> - The GTFS Splitter module is responsible of breaking large  module used by all the other ones. This is the component which breaks down large GTFS datasets and creates individual single agency GTFS files. I have tested it successfully on very large (50-100MB) multy-agency files, like the Swiss national GTFS, which contains literally hundreds of agencies.
+											<br/>
+											<br/>
+											<strong>The Printable Transit Information group</strong>
+											<br/>
+											<br/>
+											Note: these projects are not yet public. In case you wonder how I created the dozens and dozens of schematics you can find on the blog site, the answer is below.
+											<br/>
+											<img src="res/stv-pti-cls-project-logo.png"> - The Stop Trek Voyager module takes a GTFS dataset and creates a PDF file with the schematics for a line, a group of lines or the whole network. I have tested it with Latin, Cyrillic, Chinese and Japanese characters. For each schematics you can have the relative time between a specific stop and all the other for that route, as well as the distance between stations and the connections for each stop.
+											<br/>
+											<img src="res/tnb-project-logo.png"> - The Transit Network Booklet is based on the great pocket guides from the 70s and 80s that an agency used to print every 5 to 10 years. The last hardcopy that I am aware of dates back to the 90s. This standalone app takes a GTFS dataset and creates a pocket guide with pages for the individual lines. For each stop you have the list of connections.  
+											<br/>
+											<br/>
+
 				</p>
 				<p>
 					<br/>
